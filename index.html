@@ -46,6 +46,40 @@
     alert("Formulaire soumis avec succès !");
     return true;
 }
+// Initialisation d'EmailJS
+(function(){
+    emailjs.init("mmahjoubi227@gmail.com"); // Remplace TON_USER_ID par ton ID d'EmailJS
+})();
+
+function sendEmail(event) {
+    event.preventDefault(); // Empêche le rechargement de la page
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const message = document.getElementById("message").value;
+    const successMessage = document.getElementById("success-message");
+    const errorMessage = document.getElementById("error-message");
+
+    // Paramètres pour l'envoi de l'email
+    const templateParams = {
+        from_name: name,
+        from_email: email,
+        message: message
+    };
+
+    // Envoi de l'email via EmailJS
+    emailjs.send('TON_SERVICE_ID', 'TON_TEMPLATE_ID', templateParams)
+        .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            successMessage.textContent = "Votre message a été envoyé avec succès !";
+            errorMessage.textContent = "";
+        }, function(error) {
+            console.log('FAILED...', error);
+            errorMessage.textContent = "Une erreur s'est produite. Veuillez réessayer.";
+            successMessage.textContent = "";
+        });
+}
+
 
     </script>
 </body>
